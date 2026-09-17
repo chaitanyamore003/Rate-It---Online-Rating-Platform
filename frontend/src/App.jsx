@@ -1,13 +1,22 @@
-import { useState } from "react";
-import heroImg from "./assets/hero.png";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import "./App.css";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import AuthLayout from "./layouts/AuthLayout";
+import Login from "./pages/Auth/Login";
+import SignUp from "./pages/Auth/SignUp";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <></>;
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="auth/*" element={<AuthLayout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="signUp" element={<SignUp />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }
 
 export default App;
