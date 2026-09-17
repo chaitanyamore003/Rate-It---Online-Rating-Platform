@@ -22,7 +22,6 @@ const Login = () => {
       if (res.data.success) {
         login(res.data.data.user, res.data.data.token);
 
-        // Navigate based on role
         if (res.data.data.user.role === "ADMIN") navigate("/admin/dashboard");
         else if (res.data.data.user.role === "STORE_OWNER")
           navigate("/owner/dashboard");
@@ -40,65 +39,92 @@ const Login = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-6 text-center">
-        Sign In to Your Account
-      </h2>
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold tracking-tight text-neutral-900">
+          Sign in
+        </h2>
+        <p className="mt-1.5 text-sm text-neutral-500">
+          Welcome back. Enter your details to continue.
+        </p>
+      </div>
 
       {error && (
-        <div className="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded-md mb-4 text-sm">
+        <div
+          role="alert"
+          className="mb-5 rounded-lg border border-neutral-900/10 bg-neutral-900/[0.04] px-3.5 py-2.5 text-sm text-neutral-900"
+        >
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="form-label" htmlFor="email">
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <label
+            htmlFor="email"
+            className="mb-2 block text-sm font-medium text-neutral-900"
+          >
             Email
           </label>
           <input
             id="email"
             type="email"
-            className="form-control"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="you@example.com"
+            autoComplete="email"
+            className="block w-full rounded-lg border border-neutral-200 bg-white px-3.5 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 outline-none transition focus:border-black focus:ring-1 focus:ring-black disabled:opacity-50"
           />
         </div>
 
-        <div className="form-group mb-6">
-          <label className="form-label" htmlFor="password">
-            Password
-          </label>
+        <div>
+          <div className="mb-2 flex items-center justify-between">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-neutral-900"
+            >
+              Password
+            </label>
+            <Link
+              to="/auth/forgot-password"
+              className="text-xs font-medium text-neutral-500 transition hover:text-neutral-900"
+            >
+              Forgot?
+            </Link>
+          </div>
           <input
             id="password"
             type="password"
-            className="form-control"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             placeholder="••••••••"
+            autoComplete="current-password"
+            className="block w-full rounded-lg border border-neutral-200 bg-white px-3.5 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 outline-none transition focus:border-black focus:ring-1 focus:ring-black disabled:opacity-50"
           />
         </div>
 
         <button
           type="submit"
-          className="btn btn-primary w-full"
           disabled={loading}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? (
-            <Loader2 className="animate-spin" size={18} />
+            <Loader2 className="animate-spin" size={16} />
           ) : (
-            <LogIn size={18} />
+            <LogIn size={16} />
           )}
-          <span>Sign In</span>
+          <span>{loading ? "Signing in…" : "Sign in"}</span>
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-muted">
-        Don't have an account?{" "}
-        <Link to="/auth/signUp" className="text-accent-primary hover:underline">
-          Sign Up First!
+      <p className="mt-8 text-center text-sm text-neutral-500">
+        Don&apos;t have an account?{" "}
+        <Link
+          to="/auth/signUp"
+          className="font-medium text-neutral-900 underline-offset-4 transition hover:underline"
+        >
+          Sign up
         </Link>
       </p>
     </div>

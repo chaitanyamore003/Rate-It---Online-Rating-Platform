@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
-import { UserPlus, Loader2 } from "lucide-react";
+import { UserPlus, Loader2, ChevronDown } from "lucide-react";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ const SignUp = () => {
     email: "",
     password: "",
     address: "",
-    role: "USER",
+    role: "NORMAL_USER",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,6 @@ const SignUp = () => {
     e.preventDefault();
     setError("");
 
-    // Basic frontend validation to save requests
     if (formData.name.length < 5 || formData.name.length > 20) {
       return setError("Name must be between 5 and 20 characters");
     }
@@ -40,7 +39,7 @@ const SignUp = () => {
     try {
       const res = await api.post("/auth/register", formData);
       if (res.data.success) {
-        navigate("/login", {
+        navigate("/auth/login", {
           state: { message: "Registration successful! Please login." },
         });
       }
@@ -51,117 +50,148 @@ const SignUp = () => {
     }
   };
 
+  const inputClass =
+    "block w-full rounded-lg border border-neutral-200 bg-white px-3.5 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 outline-none transition focus:border-black focus:ring-1 focus:ring-black disabled:opacity-50";
+
+  const labelClass = "block text-sm font-medium text-neutral-900";
+
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-6 text-center">
-        Create an Account
-      </h2>
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold tracking-tight text-neutral-900">
+          Create an account
+        </h2>
+        <p className="mt-1.5 text-sm text-neutral-500">
+          Join RateIt and start sharing your experience.
+        </p>
+      </div>
 
       {error && (
-        <div className="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded-md mb-4 text-sm">
+        <div
+          role="alert"
+          className="mb-5 rounded-lg border border-neutral-900/10 bg-neutral-900/[0.04] px-3.5 py-2.5 text-sm text-neutral-900"
+        >
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="form-label" htmlFor="name">
-            Full Name
-          </label>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <div className="mb-2 flex items-center justify-between">
+            <label htmlFor="name" className={labelClass}>
+              Full name
+            </label>
+            <span className="text-xs tabular-nums text-neutral-400">
+              {formData.name.length}/20
+            </span>
+          </div>
           <input
             id="name"
             type="text"
-            className="form-control"
             value={formData.name}
             onChange={handleChange}
             required
-            placeholder="John Doe (min 5 characters as per req)"
-            minLength="5"
-            maxLength="20"
+            placeholder="John Doe"
+            minLength={5}
+            maxLength={20}
+            autoComplete="name"
+            className={inputClass}
           />
-          <p className="text-xs text-muted mt-1">
-            {formData.name.length}/20 (Min 5 characters required)
-          </p>
         </div>
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="email">
+        <div>
+          <label htmlFor="email" className={`mb-2 ${labelClass}`}>
             Email
           </label>
           <input
             id="email"
             type="email"
-            className="form-control"
             value={formData.email}
             onChange={handleChange}
             required
             placeholder="you@example.com"
+            autoComplete="email"
+            className={inputClass}
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="password">
+        <div>
+          <label htmlFor="password" className={`mb-2 ${labelClass}`}>
             Password
           </label>
           <input
             id="password"
             type="password"
-            className="form-control"
             value={formData.password}
             onChange={handleChange}
             required
-            placeholder="8-16 chars, 1 uppercase, 1 special"
+            placeholder="••••••••"
+            autoComplete="new-password"
+            className={inputClass}
           />
+          <p className="mt-1.5 text-xs text-neutral-400">
+            8–16 characters, 1 uppercase, 1 special character.
+          </p>
         </div>
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="address">
+        <div>
+          <label htmlFor="address" className={`mb-2 ${labelClass}`}>
             Address
           </label>
           <textarea
             id="address"
-            className="form-control"
             value={formData.address}
             onChange={handleChange}
-            maxLength="400"
-            rows="3"
+            maxLength={400}
+            rows={3}
             placeholder="Your address"
-          ></textarea>
+            autoComplete="street-address"
+            className={`${inputClass} resize-none`}
+          />
         </div>
 
-        <div className="form-group mb-6">
-          <label className="form-label" htmlFor="role">
-            Account Type
+        <div>
+          <label htmlFor="role" className={`mb-2 ${labelClass}`}>
+            Account type
           </label>
-          <select
-            id="role"
-            className="form-control"
-            value={formData.role}
-            onChange={handleChange}
-            required
-          >
-            <option value="NORMAL_USER">Customer</option>
-            <option value="STORE_OWNER">Store Owner</option>
-          </select>
+          <div className="relative">
+            <select
+              id="role"
+              value={formData.role}
+              onChange={handleChange}
+              required
+              className={`${inputClass} cursor-pointer appearance-none pr-10`}
+            >
+              <option value="NORMAL_USER">Customer</option>
+              <option value="STORE_OWNER">Store Owner</option>
+            </select>
+            <ChevronDown
+              size={16}
+              className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-400"
+            />
+          </div>
         </div>
 
         <button
           type="submit"
-          className="btn btn-primary w-full"
           disabled={loading}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? (
-            <Loader2 className="animate-spin" size={18} />
+            <Loader2 className="animate-spin" size={16} />
           ) : (
-            <UserPlus size={18} />
+            <UserPlus size={16} />
           )}
-          <span>Register</span>
+          <span>{loading ? "Creating account…" : "Create account"}</span>
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-muted">
+      <p className="mt-8 text-center text-sm text-neutral-500">
         Already have an account?{" "}
-        <Link to="/auth/login" className="text-accent-primary hover:underline">
+        <Link
+          to="/auth/login"
+          className="font-medium text-neutral-900 underline-offset-4 transition hover:underline"
+        >
           Sign in
         </Link>
       </p>
