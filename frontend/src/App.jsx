@@ -49,19 +49,17 @@ const App = () => {
                 <Route path="/admin/stores" element={<AdminStores />} />
               </Route>
 
-              {/* ─── Normal user routes ───
+              {/* ─── user routes ───
                   `/dashboard` renders the UserDashboard (which frames StoresList
                   with a page-level greeting). `/stores` stays accessible on its
                   own for direct links and future sub-pages that shouldn't
                   inherit the dashboard header.
 
-                  Role value must match the backend's enum: `NORMAL_USER`, not
-                  `USER`. SignUp's select uses `NORMAL_USER`, and ProtectedRoute's
+                  Role value must match the backend's enum: `USER`, not
+                  `USER`. SignUp's select uses `USER`, and ProtectedRoute's
                   fallback checks against it — using `USER` here would silently
                   lock regular users out of their own routes. */}
-              <Route
-                element={<ProtectedRoute allowedRoles={["NORMAL_USER"]} />}
-              >
+              <Route element={<ProtectedRoute allowedRoles={["USER"]} />}>
                 <Route path="/dashboard" element={<UserDashboard />} />
                 <Route path="/stores" element={<StoresList />} />
               </Route>

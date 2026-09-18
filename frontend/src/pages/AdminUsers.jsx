@@ -95,7 +95,7 @@ const AdminUsers = () => {
   // different weights so they're distinguishable without color:
   //   ADMIN       → solid black (highest contrast, highest privilege)
   //   STORE_OWNER → outlined, dark text
-  //   NORMAL_USER → soft neutral fill (quietest, most common role)
+  //   USER → soft neutral fill (quietest, most common role)
   const roleBadge = (role) => {
     const base =
       "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium tracking-wide";
@@ -207,7 +207,7 @@ const AdminUsers = () => {
               <option value="">All roles</option>
               <option value="ADMIN">Admin</option>
               <option value="STORE_OWNER">Store Owner</option>
-              <option value="NORMAL_USER">Normal User</option>
+              <option value="USER">user</option>
             </select>
           </div>
 

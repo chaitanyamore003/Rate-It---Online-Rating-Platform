@@ -7,7 +7,7 @@ import { KeyRound, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
  *
  * Self-contained: no route params, no context reads — the current user is
  * identified by the auth token attached to the API request. So this page
- * works identically for every role (admin, owner, normal user).
+ * works identically for every role (admin, owner, user).
  *
  * Two-stage validation:
  *   1. Client-side — catches mismatched confirms and weak passwords before
