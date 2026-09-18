@@ -13,7 +13,7 @@ import SignUp from "./pages/Auth/SignUp";
 // Dashboard pages — one per role, each role lands on its own home
 import AdminDashboard from "./pages/DashBoard/AdminDashboard";
 import OwnerDashboard from "./pages/DashBoard/OwnerDashBoard";
-import UserDashboard from "./pages/DashBoard/UserDashboard";
+import UserDashboard from "./pages/DashBoard/UserDashBoard";
 
 // Feature pages
 import AdminUsers from "./pages/AdminUsers";
