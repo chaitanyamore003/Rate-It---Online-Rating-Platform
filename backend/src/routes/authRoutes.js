@@ -5,12 +5,17 @@ const {
   registerValidation,
   loginValidation,
 } = require("../middleware/authValidation");
+const authenticateUser = require("../middleware/authenticateUser");
 
 const authRouter = express.Router();
 
 authRouter.post("/signUp", registerValidation, authController.register);
 authRouter.post("/login", loginValidation, authController.login);
-authRouter.get("/me", authController.getMe);
-authRouter.put("/update-password", authController.updatePassword);
+authRouter.get("/me", authenticateUser, authController.getMe);
+authRouter.put(
+  "/update-password",
+  authenticateUser,
+  authController.updatePassword,
+);
 
 module.exports = authRouter;

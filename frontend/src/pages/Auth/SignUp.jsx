@@ -9,7 +9,7 @@ const SignUp = () => {
     email: "",
     password: "",
     address: "",
-    role: "NORMAL_USER",
+    role: "USER",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -162,7 +162,7 @@ const SignUp = () => {
               required
               className={`${inputClass} cursor-pointer appearance-none pr-10`}
             >
-              <option value="NORMAL_USER">Customer</option>
+              <option value="USER">Customer</option>
               <option value="STORE_OWNER">Store Owner</option>
             </select>
             <ChevronDown

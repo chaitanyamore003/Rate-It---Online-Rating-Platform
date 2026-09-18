@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const authRouter = require("./routes/auth");
+const authRouter = require("./routes/authRoutes");
 const dotenv = require("dotenv");
 // Load environment variables from .env file
 dotenv.config();
